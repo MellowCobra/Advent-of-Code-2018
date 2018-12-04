@@ -12,19 +12,9 @@ fs.readFile(filename, 'utf8', function(err, data) {
         process.exit(9)
     }
 
-    const result = data // '+1, -1, +2'
-        .split('\n') // ['+1', ' -1', ' +2']
-        .map(d => {
-            d = d.trim()
-            return { sign: d[0], value: parseInt(d.substring(1)) }
-        }) // [{sign: '+', value: 1}, {sign: '-', value: 1}, {sign: '+', value: 2}]
-        .reduce((res, { sign, value }) => {
-            if (sign === '+') return res + value
-            else if (sign === '-') return res - value
-            else {
-                console.error(`Error in input: unexpected token ${sign}`)
-            }
+    console.log(
+        data.split('\n').reduce((res, value) => {
+            return res + parseInt(value)
         }, 0)
-
-    console.log(result)
+    )
 })
