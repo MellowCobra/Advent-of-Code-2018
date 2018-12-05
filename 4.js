@@ -1,12 +1,13 @@
 if (process.argv.length < 3) {
-    console.log('usage: node 3-1brute.js [filename]')
+    console.log('usage: node 4.js [filename]')
     process.exit(1)
 }
 
 const filename = process.argv[2]
 const fs = require('fs')
 
-const makeShift = events => events.reduce(
+const makeShift = events =>
+    events.reduce(
         (acc, e) => {
             while (acc.currentMin < e.min) {
                 acc.shift[acc.currentMin] = acc.asleep

@@ -1,5 +1,5 @@
 if (process.argv.length < 3) {
-    console.log('usage: node 3-1brute.js [filename]')
+    console.log('usage: node 3.js [filename]')
     process.exit(1)
 }
 
