@@ -1,11 +1,3 @@
-if (process.argv.length < 3) {
-    console.log('usage: node 5.js [filename]')
-    process.exit(1)
-}
-
-const filename = process.argv[2]
-const fs = require('fs')
-
 const polarity = u => (u === u.toLowerCase() ? 1 : 2)
 const polaritiesMatch = (a, b) => (polarity(a) + polarity(b)) % 2 === 0
 const sameUnit = (a, b) => a.toLowerCase() === b.toLowerCase()
@@ -63,15 +55,9 @@ const cleanPolymer = polymer => {
     return polymer.join('').replace(new RegExp(bestChoice.char, 'gi'), '')
 }
 
-fs.readFile(filename, 'utf8', function(err, data) {
-    if (err) {
-        console.error(err)
-        process.exit(9)
-    }
-
-    const reactedPolymer = reactPolymer(data.trim().split(''))
-    console.log(reactedPolymer.length) // Part 1 answer
-
-    const cleanedPolymer = reactPolymer(cleanPolymer(data.trim().split('')))
-    console.log(cleanedPolymer.length) // Part 2 answer
-})
+module.exports = function([data]) {
+    return [
+        reactPolymer(data.trim().split('')).length,
+        reactPolymer(cleanPolymer(data.trim().split(''))).length,
+    ]
+}

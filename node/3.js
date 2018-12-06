@@ -1,13 +1,4 @@
-if (process.argv.length < 3) {
-    console.log('usage: node 3.js [filename]')
-    process.exit(1)
-}
-
-const filename = process.argv[2]
-const fs = require('fs')
-
 const range = (s, e) => [...Array(e - s).keys()].map(i => i + s)
-
 const findBestClaim = ([first, ...rest], occ) =>
     checkClaim(first, occ) || (rest && findBestClaim(rest, occ))
 
@@ -17,13 +8,8 @@ const checkClaim = ({ id, x, y, w, h }, occupied) => {
     return id
 }
 
-fs.readFile(filename, 'utf8', function(err, data) {
-    if (err) {
-        console.error(err)
-        process.exit(9)
-    }
-
-    const claims = data.split('\n').map(s => {
+module.exports = function(data) {
+    const claims = data.map(s => {
         let square
         s.replace(
             /#(\w+) @ (\w+),(\w+): (\w+)x(\w+)/g,
@@ -44,6 +30,5 @@ fs.readFile(filename, 'utf8', function(err, data) {
         0
     )
 
-    console.log('number of overclaimed inches:', overclaimedInches)
-    console.log('the best claim is #:', findBestClaim(claims, occupied))
-})
+    return [overclaimedInches, findBestClaim(claims, occupied)]
+}

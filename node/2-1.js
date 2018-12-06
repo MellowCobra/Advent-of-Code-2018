@@ -1,18 +1,5 @@
-if (process.argv.length < 3) {
-    console.log('usage: node 2-1.js [filename]')
-    process.exit(1)
-}
-
-const filename = process.argv[2]
-const fs = require('fs')
-
-fs.readFile(filename, 'utf8', function(err, data) {
-    if (err) {
-        console.error(err)
-        process.exit(9)
-    }
-
-    const { twice, thrice } = data.split('\n').reduce(
+module.exports = function(data) {
+    const { twice, thrice } = data.reduce(
         (n, src) => {
             const { hasTwo, hasThree } = Object.values(
                 src.split('').reduce((counts, char) => {
@@ -36,6 +23,5 @@ fs.readFile(filename, 'utf8', function(err, data) {
         { twice: 0, thrice: 0 }
     )
 
-    const result = twice * thrice
-    console.log(result)
-})
+    return twice * thrice
+}

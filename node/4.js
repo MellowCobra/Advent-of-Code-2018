@@ -1,11 +1,3 @@
-if (process.argv.length < 3) {
-    console.log('usage: node 4.js [filename]')
-    process.exit(1)
-}
-
-const filename = process.argv[2]
-const fs = require('fs')
-
 const makeShift = events =>
     events.reduce(
         (acc, e) => {
@@ -27,15 +19,9 @@ const findMostSleptMinute = arr =>
 
 const daysInMonth = m => [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][m] // 1518 is not a leap year
 
-fs.readFile(filename, 'utf8', function(err, data) {
-    if (err) {
-        console.error(err)
-        process.exit(9)
-    }
-
+module.exports = function(data) {
     // Read in lines as events
     const events = data
-        .split('\n')
         .map(s => {
             let event
             s.replace(
@@ -116,8 +102,6 @@ fs.readFile(filename, 'utf8', function(err, data) {
     // For the sleepiestGuard, find the hour with the largest value
     const bestMinute = findMostSleptMinute(guards[sleepiestGuard]).minute
 
-    console.log(parseInt(sleepiestGuard) * bestMinute) // Part one answer
-
     const { gid, minute } = Object.entries(guards)
         .map(([gid, values]) => {
             const { minute, value } = findMostSleptMinute(values)
@@ -132,5 +116,5 @@ fs.readFile(filename, 'utf8', function(err, data) {
             minute: 0,
         })
 
-    console.log(parseInt(gid) * minute) // Part two answer
-})
+    return [parseInt(sleepiestGuard) * bestMinute, parseInt(gid) * minute]
+}
